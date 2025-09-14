@@ -6,7 +6,6 @@ import { logout } from '../../features/auth/authSlice';
 import { useTheme } from '../../context/ThemeContext.jsx';
 import { Sun, Moon, LogOut, Code, User, Settings, BookOpen, BarChart2, Menu, X, Repeat } from 'lucide-react';
 import Button from '../common/Button.jsx';
-import Logo from '../../assets/Logo.png';
 
 const Navbar = () => {
   const navigate = useNavigate();
