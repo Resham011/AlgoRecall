@@ -28,8 +28,17 @@ export default defineConfig({
       '/api': {
         target: 'https://algorecall.onrender.com',
         changeOrigin: true,
-        // This rewrite rule removes the '/api' prefix
         rewrite: (path) => path.replace(/^\/api/, ''),
+        // Add this configure block to log proxied requests
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Proxying request:', req.method, req.url);
+            console.log('To target:', options.target + proxyReq.path);
+          });
+          proxy.on('error', (err, req, res) => {
+            console.error('Proxy error:', err);
+          });
+        },
       },
     },
   },
