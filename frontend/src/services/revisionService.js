@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/revision/';
+const API_URL = '/api/revision';
 
 // Get today's revision list
 const getTodaysRevision = async (token) => {

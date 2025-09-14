@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/settings/';
+const API_URL = '/api/settings';
 
 const getSettings = async (token) => {
      const config = { headers: { Authorization: `Bearer ${token}` } };
