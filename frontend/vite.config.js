@@ -28,8 +28,7 @@ export default defineConfig({
       '/api': {
         target: 'https://algorecall.onrender.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        // Add this configure block to log proxied requests
+        // ✅ Do NOT strip `/api`, backend expects it
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
             console.log('Proxying request:', req.method, req.url);
