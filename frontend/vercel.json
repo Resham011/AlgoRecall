@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://algorecall.onrender.com/api/:path*"
+    },
+    {
+      "source": "/((?!api/|assets/).*)",
+      "destination": "/index.html"
     }
   ]
 }
