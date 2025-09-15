@@ -9,7 +9,7 @@ const getTodaysRevision = async (token) => {
           Authorization: `Bearer ${token}`,
      },
      };
-     const response = await axios.get(API_URL + 'today', config);
+     const response = await axios.get(API_URL + '/today', config);
      return response.data;
 };
 
