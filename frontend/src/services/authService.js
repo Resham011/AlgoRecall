@@ -25,7 +25,7 @@ const verifyEmail = async (token) => {
 }
 
 const forgotPassword = async (email) => {
-     const response = await axios.post(API_URL + 'forgotpassword', { email });
+     const response = await axios.post(API_URL + '/forgotpassword', { email });
      return response.data;
 };
 
