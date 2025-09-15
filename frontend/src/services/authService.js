@@ -55,7 +55,7 @@ const deleteUser = async (token) => {
 
 const changePassword = async (passwordData, token) => {
      const config = { headers: { Authorization: `Bearer ${token}` } };
-     const response = await axios.put(API_URL + 'changepassword', passwordData, config);
+     const response = await axios.put(API_URL + '/changepassword', passwordData, config);
      return response.data;
 };
 
