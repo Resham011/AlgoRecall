@@ -10,7 +10,7 @@ export const getStats = async (token) => {
 
 export const getRevisionStreak = async (token) => {
      const config = { headers: { Authorization: `Bearer ${token}` } };
-     const response = await axios.get(API_URL + 'streak', config);
+     const response = await axios.get(API_URL + '/streak', config);
      return response.data;
 };
 
