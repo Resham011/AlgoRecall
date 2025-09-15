@@ -31,7 +31,7 @@ const forgotPassword = async (email) => {
 
 const resetPassword = async (data) => {
      const { token, password } = data;
-     const response = await axios.patch(API_URL + `resetpassword/${token}`, { password });
+     const response = await axios.patch(API_URL + `/resetpassword/${token}`, { password });
      return response.data;
 };
 
