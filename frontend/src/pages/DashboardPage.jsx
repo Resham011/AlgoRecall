@@ -6,9 +6,9 @@ import Spinner from '../components/common/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Button from '../components/common/Button';
-import { 
-  Target, CheckCircle, Clock, BarChart, BookOpen, PlusCircle, 
-  Flame, Calendar, Trophy, TrendingUp, RefreshCw, Zap, 
+import {
+  Target, CheckCircle, Clock, BarChart, BookOpen, PlusCircle,
+  Flame, Calendar, Trophy, TrendingUp, RefreshCw, Zap,
   Award, ChevronRight, Star, TrendingUp as TrendingUpIcon, Brain
 } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, Bar, ComposedChart, XAxis, YAxis, CartesianGrid } from 'recharts';
@@ -261,8 +261,7 @@ const DashboardPage = () => {
           </div>
 
           {/* Stats Cards */}
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"> */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           <StatCard 
                icon={<Target size={24} className="text-blue-500" />} 
                title="Total Problems" 
@@ -429,11 +428,11 @@ const DashboardPage = () => {
                <TrendingUp size={20} className="mr-2 text-indigo-500" />
                Problem Status Breakdown
                </h3>
-               <div className="h-80">
+               <div className="h-80 w-full">
                <ResponsiveContainer width="100%" height="100%">
-                    <ComposedChart data={statusData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                    <ComposedChart data={statusData} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb'} />
-                    <XAxis dataKey="name" stroke={document.documentElement.classList.contains('dark') ? '#6b7280' : '#9ca3af'} />
+                    <XAxis dataKey="name" stroke={document.documentElement.classList.contains('dark') ? '#6b7280' : '#9ca3af'} interval={0} angle={-30} textAnchor="end" />
                     <YAxis stroke={document.documentElement.classList.contains('dark') ? '#6b7280' : '#9ca3af'} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="value" barSize={40} radius={[4, 4, 0, 0]}>
