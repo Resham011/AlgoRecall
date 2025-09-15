@@ -22,13 +22,13 @@ const getProblems = async (token, filters = {}) => {
 
 const getProblem = async (problemId, token) => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const response = await axios.get(API_URL + problemId, config);
+    const response = await axios.get(API_URL + "/" + problemId, config);
     return response.data;
 };
 
 const updateProblem = async (problemId, problemData, token) => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const response = await axios.put(API_URL + '/' + problemId, problemData, config);
+    const response = await axios.put(API_URL + problemId, problemData, config);
     return response.data;
 };
 
