@@ -24,7 +24,7 @@ export const register = createAsyncThunk(
       return data;
     } catch (error) {
       const message =
-        error.message || error.response?.data?.message || 'Registration failed';
+        error.response?.data?.message || 'Registration failed';
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
     }
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
       return await authService.login(userData);
     } catch (error) {
       const message =
-        error.message || error.response?.data?.message || 'Login failed';
+        error.response?.data?.message || 'Login failed';
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
     }
@@ -61,7 +61,7 @@ export const updateUser = createAsyncThunk(
       return data;
     } catch (error) {
       const message =
-        error.message || error.response?.data?.message || 'Update failed';
+        error.response?.data?.message || 'Update failed';
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
     }
@@ -81,9 +81,7 @@ export const changePassword = createAsyncThunk(
       return data;
     } catch (error) {
       const message =
-        error.message ||
-        error.response?.data?.message ||
-        'Password change failed';
+        error.response?.data?.message || 'Password change failed';
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
     }
@@ -103,9 +101,7 @@ export const deleteUser = createAsyncThunk(
       return data;
     } catch (error) {
       const message =
-        error.message ||
-        error.response?.data?.message ||
-        'Delete account failed';
+        error.response?.data?.message || 'Delete account failed';
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
     }
@@ -220,5 +216,3 @@ const authSlice = createSlice({
 
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
-
-

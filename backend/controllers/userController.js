@@ -37,22 +37,29 @@ export const registerUser = asyncHandler(async (req, res) => {
    LOGIN
 ============================ */
 export const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-
-  if (!user || !(await user.matchPassword(password))) {
-    res.status(401);
-    throw new Error('Invalid email or password');
-  }
-
-  res.json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    token: generateToken(user._id),
-  });
-});
+     const { email, password } = req.body;
+   
+     const user = await User.findOne({ email });
+   
+     if (!user) {
+       res.status(401);
+       throw new Error('User is not registered');
+     }
+   
+     const isMatch = await user.matchPassword(password);
+   
+     if (!isMatch) {
+       res.status(401);
+       throw new Error('Incorrect password');
+     }
+   
+     res.json({
+       _id: user._id,
+       name: user.name,
+       email: user.email,
+       token: generateToken(user._id),
+     });
+   });
 
 /* ============================
    PROFILE
