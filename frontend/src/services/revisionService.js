@@ -20,7 +20,7 @@ const markProblemAsReviewed = async (problemId, reviewData, token) => {
           Authorization: `Bearer ${token}`,
      },
      };
-     const response = await axios.post(API_URL + `review/${problemId}`, reviewData, config);
+     const response = await axios.post(API_URL + `/review/${problemId}`, reviewData, config);
      return response.data;
 };
 
