@@ -7,9 +7,6 @@ import PrivateRoute from './components/routing/PrivateRoute.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
-import VerifyEmailPage from './pages/VerifyEmailPage.jsx';
-import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
-import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import ProblemsPage from './pages/ProblemsPage.jsx';
 import AddProblemPage from './pages/AddProblemPage.jsx';
@@ -21,7 +18,7 @@ import { useTheme } from "./context/ThemeContext";
 
 function App() {
      const location = useLocation();
-     const isAuthPage = ['/login', '/register', '/forgot-password', '/resetpassword', '/verifyemail'].some(path => 
+     const isAuthPage = ['/login', '/register'].some(path => 
      location.pathname.includes(path)
      );
      const { theme } = useTheme();
@@ -46,9 +43,6 @@ function App() {
                <Route path="/" element={<LandingPage />} />
                <Route path="/login" element={<LoginPage />} />
                <Route path="/register" element={<RegisterPage />} />
-               <Route path="/verifyemail/:token" element={<VerifyEmailPage />} />
-               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-               <Route path="/resetpassword/:token" element={<ResetPasswordPage />} />
                
                <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
                <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />

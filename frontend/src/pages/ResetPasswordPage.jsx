@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetPassword, forgotPassword } from '../features/auth/authSlice';
+import { resetPassword } from '../features/auth/authSlice';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { toast } from 'react-hot-toast';

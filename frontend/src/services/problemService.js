@@ -4,8 +4,19 @@ const API_URL = '/api/problems';
 
 const createProblem = async (problemData, token) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const response = await axios.post(API_URL, problemData, config);
-  return response.data;
+  
+  try {
+    const response = await axios.post(API_URL, problemData, config);
+    return response.data;
+  } catch (error) {
+    // FALLBACK: Save to local queue if server is unreachable
+    const localQueue = JSON.parse(localStorage.getItem('pending_problems')) || [];
+    localQueue.push({ ...problemData, tempId: Date.now() });
+    localStorage.setItem('pending_problems', JSON.stringify(localQueue));
+    
+    // Return a temporary object so the UI updates
+    return { ...problemData, _id: 'temp_' + Date.now(), status: 'Pending Sync' };
+  }
 };
 
 const getProblems = async (token, filters = {}) => {

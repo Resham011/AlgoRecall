@@ -166,24 +166,98 @@ const DashboardPage = () => {
      const [isLoadingStreak, setIsLoadingStreak] = useState(true);
      const [refreshing, setRefreshing] = useState(false);
 
+     // 1. Fetch data only when a real token exists
+    useEffect(() => {
+        if (userInfo && userInfo.token && !userInfo.isLocalOnly) {
+            dispatch(getStats());
+            fetchStreakData();
+        }
+        return () => { dispatch(reset()); };
+    }, [dispatch, userInfo]);
+
+    // 2. BACKGROUND PROBLEM SYNC: Push local questions to MongoDB
+    useEffect(() => {
+        const pending = JSON.parse(localStorage.getItem('pending_problems')) || [];
+        if (pending.length > 0 && userInfo?.token && !userInfo.isLocalOnly) {
+            pending.forEach(problem => {
+                dispatch(createProblem(problem));
+            });
+            localStorage.removeItem('pending_problems');
+            toast.success('Your local data has been backed up to the cloud!');
+        }
+    }, [userInfo, dispatch]);
+
+    // 3. UI: Only show loading for a max of 5 seconds
+    const [loadingWait, setLoadingWait] = useState(userInfo?.isLocalOnly);
+    useEffect(() => {
+        const timer = setTimeout(() => setLoadingWait(false), 5000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (loadingWait && userInfo?.isLocalOnly) {
+        return <div className="flex justify-center p-20"><Spinner size="xl" /></div>;
+    }
+
+
      useEffect(() => {
-     dispatch(getStats());
-     fetchStreakData();
-     return () => { dispatch(reset()); };
-     }, [dispatch]);
+     // ONLY fetch if we have a real user with a token from the server
+     if (userInfo && userInfo.token && !userInfo.isLocalOnly) {
+          dispatch(getStats());
+          fetchStreakData();
+     }
+     
+     return () => { 
+          dispatch(reset()); 
+     };
+     // Add userInfo to the dependency array so it refetches 
+     // automatically once the background sync finishes
+     }, [dispatch, userInfo]);
+
+     // 2. ADD the sync logic here
+     useEffect(() => {
+          const pending = JSON.parse(localStorage.getItem('pending_problems')) || [];
+          
+          // Only sync if there is data to sync and the user is fully authenticated on the server
+          if (pending.length > 0 && userInfo?.token && !userInfo.isLocalOnly) {
+               pending.forEach(problem => {
+                    dispatch(createProblem(problem));
+               });
+               localStorage.removeItem('pending_problems');
+               toast.success('Your local work has been synced to the cloud!');
+               
+               // Optional: Refresh stats after syncing new problems
+               dispatch(getStats());
+          }
+     }, [userInfo, dispatch]);
+
+     // const fetchStreakData = async () => {
+     // try {
+     //      setIsLoadingStreak(true);
+     //      const token = userInfo.token;
+     //      const data = await getRevisionStreak(token);
+     //      setStreakData(data);
+     // } catch (error) {
+     //      console.error('Error fetching streak data:', error);
+     // } finally {
+     //      setIsLoadingStreak(false);
+     // }
+     // };
 
      const fetchStreakData = async () => {
-     try {
-          setIsLoadingStreak(true);
-          const token = userInfo.token;
-          const data = await getRevisionStreak(token);
-          setStreakData(data);
-     } catch (error) {
-          console.error('Error fetching streak data:', error);
-     } finally {
-          setIsLoadingStreak(false);
-     }
-     };
+    // Safety check: if no token, don't even try to call the API
+    if (!userInfo?.token || userInfo?.isLocalOnly) return;
+
+    try {
+        setIsLoadingStreak(true);
+        const token = userInfo.token;
+        const data = await getRevisionStreak(token);
+        setStreakData(data);
+    } catch (error) {
+        console.error('Error fetching streak data:', error);
+    } finally {
+        setIsLoadingStreak(false);
+    }
+};
 
      const refreshData = async () => {
      setRefreshing(true);
@@ -191,6 +265,15 @@ const DashboardPage = () => {
      await fetchStreakData();
      setTimeout(() => setRefreshing(false), 800);
      };
+
+     if (userInfo?.isLocalOnly) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+            <Spinner />
+            <p className="mt-4 text-gray-500">Connecting your account to the cloud...</p>
+        </div>
+    );
+}
 
      if (isLoading || !stats || isLoadingStreak) {
      return (
